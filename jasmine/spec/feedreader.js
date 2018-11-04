@@ -8,6 +8,8 @@
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
  */
+
+
 $(function() {
     /* This is our first test suite - a test suite just contains
     * a related set of tests. This suite is all about the RSS
@@ -26,47 +28,51 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
+        /**
+         * This test loops through the allFeeds object and ensures it has a 
+         * URL defined and that the URL is not empty.
          */
         console.log(allFeeds);
         it("urls are defined and not empty", function(){
             allFeeds.forEach(function(feed){
                 expect(feed.url).toBeDefined();
-                expect(feed.url).not.toBe(" ");
+                expect(feed.url).not.toBe("");
+                expect(feed.url).not.toBe(null);
                 expect(feed.url).toContain("//");
             });
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
+        /**
+         * This test loops through the allFeeds object and ensures it has
+         * a name defined and that the name is not empty.
          */
-
         it("names are defined and not empty", function(){
             allFeeds.forEach(function(feed){
                 expect(feed.name).toBeDefined();
-                expect(feed.name).not.toBe(" ");
-                expect(feed.name.length).toBeGreaterThan(2);
+                expect(feed.name).not.toBe("");
+                expect(feed.name).not.toBe(null);
             });
         });
         
     });
 
-
-    /* TODO: Write a new test suite named "The menu" */
-
+    /**
+     * Test suite to test menu object
+     */
     describe("The menu", function(){
         let menuHiddenAfterFirstClick;
         let menuHiddenAfterSecondClick;
 
+        /**
+         * This test ensures that the menu is hidden by default
+         */
         it("is hidden by default", function(){
             expect(document.querySelector("body").classList.contains("menu-hidden")).toBe(true);
         });
 
+        /**
+         * This test ensures that the menu opens and closes when clicked, toggling state
+         */
         it("changes visiblity when the menu is clicked", function(){
             //click hamburger menu and verify menu opens
             document.querySelector("i.icon-list").click();
@@ -80,31 +86,55 @@ $(function() {
         });
     });
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
+    /**
+     * Test suite for the initial entries function that loads initial entries to the RSS Feeder
+     */
+    describe("Initial Entries", function(){
+
+        beforeEach(function(done){
+            loadFeed(0, done);
+        });
+
+        /**
+         * Test to ensure that after the initial entries of the rss feed have been loaded
+         * there is at least one entry on the page within the .feed container
          */
+        it("loadFeed should load at least 1 entry after complete", function(done){
+            let entries = document.querySelectorAll(".feed .entry");
+            expect(entries.length).toBeGreaterThan(0);
+            done();
+        });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+    });
 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
+    /**
+     * Test suite to capture tests for the rss feed changing selections
+     */
+
+    /**
+     * Before our tests, we want to load two different feeds to capture information about then for
+     * testing and comparision
+     */
+    describe("New Feed Selection", function(){
+        let numOfEntriesBefore;
+        let numOfEntriesAfter;
+        beforeEach(function(done){
+            loadFeed(0, () => {
+                numOfEntriesBefore = document.querySelectorAll(".feed .entry").length;
+                loadFeed(3, () => {
+                    numOfEntriesAfter = document.querySelectorAll(".feed .entry").length;
+                    done();
+                });
+            });
+        });
+
+        /**
+         * Test to make sure that the rss entries actual change when a new feed is loaded
          */
-
-    /* TODO: Write a new test suite named "New Feed Selection" */
-
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        it("rss content changes when a new feed is loaded by loadFeed", function(done){
+            expect(numOfEntriesBefore).not.toBe(numOfEntriesAfter);
+            done();
+        });
+    });
 }());
