@@ -31,16 +31,54 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+        console.log(allFeeds);
+        it("urls are defined and not empty", function(){
+            allFeeds.forEach(function(feed){
+                expect(feed.url).toBeDefined();
+                expect(feed.url).not.toBe(" ");
+                expect(feed.url).toContain("//");
+            });
+        });
 
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+
+        it("names are defined and not empty", function(){
+            allFeeds.forEach(function(feed){
+                expect(feed.name).toBeDefined();
+                expect(feed.name).not.toBe(" ");
+                expect(feed.name.length).toBeGreaterThan(2);
+            });
+        });
+        
     });
 
 
     /* TODO: Write a new test suite named "The menu" */
+
+    describe("The menu", function(){
+        let menuHiddenAfterFirstClick;
+        let menuHiddenAfterSecondClick;
+
+        it("is hidden by default", function(){
+            expect(document.querySelector("body").classList.contains("menu-hidden")).toBe(true);
+        });
+
+        it("changes visiblity when the menu is clicked", function(){
+            //click hamburger menu and verify menu opens
+            document.querySelector("i.icon-list").click();
+            menuHiddenAfterFirstClick = document.querySelector("body").classList.contains("menu-hidden");
+            expect(menuHiddenAfterFirstClick).toBe(false);
+
+            //click again and test that the menu is closed
+            document.querySelector("i.icon-list").click();
+            menuHiddenAfterSecondClick = document.querySelector("body").classList.contains("menu-hidden");
+            expect(menuHiddenAfterSecondClick).toBe(true);
+        });
+    });
 
         /* TODO: Write a test that ensures the menu element is
          * hidden by default. You'll have to analyze the HTML and
