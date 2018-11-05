@@ -1,6 +1,6 @@
 # Testing an RSS Feed with Jasmine
 
-This project contains an RSS Feed, provided by [Udacity](https://www.udacity.com) as part of their [Front-End Web Developer Nanodegree program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001). The website contains Jamsime tests that were written by myself.
+This project contains an RSS Feed, provided by [Udacity](https://www.udacity.com) as part of their [Front-End Web Developer Nanodegree program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001). The website contains Jasmime tests that were written by myself.
 
 ## How to run the application
 This is a web application and will start automatically as soon as you launch index.html. The results of the jasmine tests will be seen at the bottom of the html page.
