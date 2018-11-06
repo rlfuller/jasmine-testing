@@ -117,13 +117,14 @@ $(function() {
      * testing and comparision
      */
     describe("New Feed Selection", function(){
-        let numOfEntriesBefore;
-        let numOfEntriesAfter;
+        let feedBefore;
+        let feedAfter;
+
         beforeEach(function(done){
             loadFeed(0, () => {
-                numOfEntriesBefore = document.querySelectorAll(".feed .entry").length;
+                feedBefore = document.querySelector(".feed").innerHTML;
                 loadFeed(3, () => {
-                    numOfEntriesAfter = document.querySelectorAll(".feed .entry").length;
+                    feedAfter = document.querySelector(".feed").innerHTML;
                     done();
                 });
             });
@@ -133,7 +134,7 @@ $(function() {
          * Test to make sure that the rss entries actual change when a new feed is loaded
          */
         it("rss content changes when a new feed is loaded by loadFeed", function(done){
-            expect(numOfEntriesBefore).not.toBe(numOfEntriesAfter);
+            expect(feedBefore).not.toBe(feedAfter);
             done();
         });
     });
